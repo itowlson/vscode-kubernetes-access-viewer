@@ -149,7 +149,7 @@ function unquotedPath(path: string): string {
 export function shellEnvironment(baseEnvironment: any): any {
     const env = Object.assign({}, baseEnvironment);
     const pathVariable = pathVariableName(env);
-    for (const tool of ['duffle']) {
+    for (const tool of ['rakkess', 'kubectl-who-can']) {
         const toolPath = config.toolPath(tool);
         if (toolPath) {
             const toolDirectory = path.dirname(toolPath);
@@ -158,10 +158,11 @@ export function shellEnvironment(baseEnvironment: any): any {
         }
     }
 
-    // const kubeconfig = getActiveKubeconfig();
-    // if (kubeconfig) {
-    //     env['KUBECONFIG'] = kubeconfig;
-    // }
+    const kubeconfig = config.getActiveKubeconfig();
+    if (kubeconfig) {
+        env['KUBECONFIG'] = kubeconfig;
+    }
+
     return env;
 }
 
